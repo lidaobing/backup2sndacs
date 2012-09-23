@@ -21,7 +21,16 @@ module Backup
       end
 
       def remove!(pkg)
-        # TODO
+        remote_path = remote_path_for(pkg)
+        transferred_files_for(pkg) do |local_file, remote_file|
+          Logger.message "#{storage_name} started removing " +
+              "'#{ local_file }' from bucket '#{ bucket }'."
+          key = File.join(remote_path, remote_file)
+          res = bucket_service.objects.find(key).destroy
+          unless res == true
+            raise "delete '#{key}' failed"
+          end
+        end
       end
 
       def transfer!

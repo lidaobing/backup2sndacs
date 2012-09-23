@@ -25,20 +25,25 @@ module Backup
       end
 
       def transfer!
-        establish_connection!
         remote_path = remote_path_for(@package)
         files_to_transfer_for(@package) do |local_file, remote_file|
           Logger.message "#{storage_name} started transferring " +
               "'#{ local_file }'."
-          # TODO
-          raise "upload '#{local_file}' failed"
+          key = File.join(remote_path, remote_file)
+          o = bucket_service.objects.build(key)
+          o.content = open(File.join(local_path, local_file))
+          res = o.save
+          raise "upload '#{local_file}' failed" unless res == true
           Logger.message "file uploaded to bucket:#{bucket}, key:#{key}"
         end
       end
 
       private
-      def establish_connection!
-        # TODO
+      def bucket_service
+        @bucket_service ||= begin
+          service = ::Sndacs::Service.new(:access_key_id => @access_key, :secret_access_key => @access_secret)
+          service.buckets.find(@bucket)
+        end
       end
     end
   end

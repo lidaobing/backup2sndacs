@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    backup2sndacs (0.2.0)
+    backup2sndacs (3.2.0)
       backup (~> 3.2.0)
       sndacs (~> 0.2.0)
 

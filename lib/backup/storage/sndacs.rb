@@ -7,6 +7,7 @@ module Backup
 
       attr_accessor :access_key, :access_secret
       attr_accessor :bucket
+      attr_accessor :path
 
       def initialize(model, storage_id = nil, &block)
         super(model, storage_id)
@@ -14,10 +15,6 @@ module Backup
         @bucket ||= 'backups'
 
         instance_eval(&block) if block_given?
-      end
-
-      def path
-        ''
       end
 
       def remove!(pkg)

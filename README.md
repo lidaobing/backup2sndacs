@@ -32,6 +32,7 @@ Backup::Model.new(:mysql_backup_sndacs, 'example backup to sndacs') do
     s.access_key = 'replace with access key'
     s.access_secret = 'replace with access secret'
     s.bucket = 'backup2sndacs-test1'
+    s.path = 'backup'
   end
 end
 ```

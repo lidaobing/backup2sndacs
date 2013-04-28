@@ -1,3 +1,7 @@
+## 3.3.1 (2013-04-28)
+
+* support set path prefix
+
 ## 3.3.0 (2013-04-19)
 
 * works with backup 3.3.X

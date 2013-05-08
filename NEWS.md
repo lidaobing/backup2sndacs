@@ -1,3 +1,8 @@
+## 3.5.0 (2013-05-08)
+
+* works with backup 3.5.0
+* bump minimum backup version to 3.4.0
+
 ## 3.3.1 (2013-04-28)
 
 * support set path prefix

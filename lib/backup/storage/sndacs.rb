@@ -19,9 +19,9 @@ module Backup
 
       def remove!(pkg)
         remote_path = remote_path_for(pkg)
-        transferred_files_for(pkg) do |local_file, remote_file|
+        package.filenames.each do |remote_file|
           Logger.info "#{storage_name} started removing " +
-              "'#{ local_file }' from bucket '#{ bucket }'."
+              "'#{ remote_file }' from bucket '#{ bucket }'."
           key = File.join(remote_path, remote_file)
           res = bucket_service.objects.find(key).destroy
           unless res == true
@@ -32,14 +32,14 @@ module Backup
 
       def transfer!
         remote_path = remote_path_for(@package)
-        files_to_transfer_for(@package) do |local_file, remote_file|
+        package.filenames.each do |filename|
           Logger.info "#{storage_name} started transferring " +
-              "'#{ local_file }'."
-          key = File.join(remote_path, remote_file)
+              "'#{ filename }'."
+          key = File.join(remote_path, filename)
           o = bucket_service.objects.build(key)
-          o.content = open(File.join(local_path, local_file))
+          o.content = open(File.join(Config.tmp_path, filename))
           res = o.save
-          raise "upload '#{local_file}' failed" unless res == true
+          raise "upload '#{filename}' failed" unless res == true
           Logger.info "file uploaded to bucket:#{bucket}, key:#{key}"
         end
       end
